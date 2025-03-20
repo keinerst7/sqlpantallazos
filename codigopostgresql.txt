@@ -1,0 +1,131 @@
+CREATE TABLE usuarios (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    birth_date DATE NOT NULL,
+    password TEXT NOT NULL,
+    health_goals TEXT,
+    medical_conditions TEXT,
+    food_preferences TEXT
+);
+
+CREATE TABLE actividad_fisica (
+    id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES usuarios(id) ON DELETE CASCADE,
+    activity_type VARCHAR(255) NOT NULL,
+    duration INT NOT NULL,
+    intensity VARCHAR(50),
+    calories_burned INT,
+    activity_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE comidas (
+    id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES usuarios(id) ON DELETE CASCADE,
+    meal_plan TEXT NOT NULL,
+    recipe_id INT,
+    calories INT,
+    nutrients JSONB,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE recordatorios_medicamentos (
+    id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES usuarios(id) ON DELETE CASCADE,
+    medication_name VARCHAR(255) NOT NULL,
+    dosage VARCHAR(50) NOT NULL,
+    frequency VARCHAR(100) NOT NULL,
+    side_effects TEXT,
+    reminder_time TIMESTAMP NOT NULL
+);
+
+CREATE TABLE bienestar_personalizado (
+    id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES usuarios(id) ON DELETE CASCADE,
+    category VARCHAR(255) NOT NULL,
+    recommendation TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE seguridad_datos (
+    id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES usuarios(id) ON DELETE CASCADE,
+    privacy_settings JSONB NOT NULL
+);
+
+CREATE TABLE dispositivos_salud (
+    id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES usuarios(id) ON DELETE CASCADE,
+    device_name VARCHAR(255) NOT NULL,
+    device_type VARCHAR(100) NOT NULL,
+    data JSONB NOT NULL,
+    synced_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE progreso_usuarios (
+    id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES usuarios(id) ON DELETE CASCADE,
+    progress_data JSONB NOT NULL,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE evaluacion_riesgos_salud (
+    id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES usuarios(id) ON DELETE CASCADE,
+    risk_assessment JSONB NOT NULL,
+    recommendations TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE chat_soporte (
+    id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES usuarios(id) ON DELETE CASCADE,
+    message TEXT NOT NULL,
+    support_agent VARCHAR(255),
+    response TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE rutinas_diarias (
+    id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES usuarios(id) ON DELETE CASCADE,
+    routine_details TEXT NOT NULL,
+    goal VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE citas_medicas (
+    id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES usuarios(id) ON DELETE CASCADE,
+    doctor_name VARCHAR(255) NOT NULL,
+    appointment_date TIMESTAMP NOT NULL,
+    notes TEXT
+);
+
+CREATE TABLE foros_comunidad (
+    id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES usuarios(id) ON DELETE CASCADE,
+    post TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE integracion_wearables (
+    id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES usuarios(id) ON DELETE CASCADE,
+    sleep_quality INT,
+    health_data JSONB NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE bienestar_empresarial (
+    id SERIAL PRIMARY KEY,
+    company_name VARCHAR(255) NOT NULL,
+    employee_evaluation JSONB NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE cumplimiento_normatividad_salud (
+    id SERIAL PRIMARY KEY,
+    compliance_details TEXT NOT NULL,
+    audit_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
